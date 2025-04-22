@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Match Game</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <header class="game-header">
+        <div class="title-section">
+          <h1>Card Match</h1>
+          <p>
+            Use the three attempts you have to try to find the three matching
+            pairs of cards.
+          </p>
+        </div>
+        <div class="attempts-section">
+          <p>Attempts left: <span id="attempts-left">3</span></p>
+        </div>
+      </header>
+
+      <main class="card-grid">
+        <!-- 6 Cards Total -->
+        <div class="card" data-index="0"></div>
+        <div class="card" data-index="1"></div>
+        <div class="card" data-index="2"></div>
+        <div class="card" data-index="3"></div>
+        <div class="card" data-index="4"></div>
+        <div class="card" data-index="5"></div>
+      </main>
+
+      <div class="game-message">
+        <h2 id="result-message"></h2>
+        <button id="restart-button">Start Over!</button>
+      </div>
+    </div>
+
+    <script src="game.js" type="module"></script>
+  </body>
+</html>
