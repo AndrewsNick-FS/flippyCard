@@ -1,3 +1,5 @@
+import "../../src/styles/styles.scss";
+
 (() => {
   interface Card {
     element: HTMLElement;
