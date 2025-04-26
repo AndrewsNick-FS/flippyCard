@@ -19,18 +19,15 @@ module.exports = {
         test: /\.ts$/, // Test for .js files
         use: "ts-loader",
         exclude: /node_modules/, // Exclude node_modules
-        use: {
-          loader: "babel-loader", // Use Babel to transpile ES6 to ES5
-          options: {
-            presets: ["@babel/preset-env"], // Babel preset for ES6+ features
-          },
-        },
       },
       {
         test: /\.scss$/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
+  },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"],
   },
   plugins: [
     new HtmlWebpackPlugin({
