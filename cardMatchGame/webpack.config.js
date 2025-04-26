@@ -1,45 +1,69 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin'); // for the copied assets folder
 
 module.exports = {
-  entry: "./src/ts/game.ts",
+  entry: './src/index.ts',
   output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "build"),
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true, // cleans the output directory before each build
   },
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src"),
-    },
-    extensions: [".ts", ".tsx", ".js", ".scss", ".css"],
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
       {
-        test: /\.ts$/, // Test for .js files
-        use: "ts-loader",
-        exclude: /node_modules/, // Exclude node_modules
+        test: /\.ts$/, // added to another TS files
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
       {
         test: /\.scss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [
+          'style-loader',  // injects styles into DOM
+          'css-loader',    // turns CSS into CommonJS
+          'sass-loader',   // compiles Sass to CSS
+        ],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/i,  // matches image files
+        type: 'asset/inline',  // emits separate files and returns their URLs
       },
     ],
   },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js"],
-  },
-  plugins: [
+  plugins: [ // updated plugins to include CopyWebpackPlugin for assets folder _outside_ src dir
     new HtmlWebpackPlugin({
-      template: "./src/index.html",
+      template: './src/index.html',
+      inject: false,
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'assets'), // folder for assets to copy
+          to: path.resolve(__dirname, 'dist/assets'), // where to input the copied folder
+        },
+      ],
     }),
   ],
   devServer: {
-    compress: false,
-    port: 9000,
-    hot: true,
-    static: "./build",
-    open: true,
+    static: {
+      directory: path.join(__dirname, 'dist'), // serves static files from the 'dist' directory
+    },
+    compress: true,
+    port: 9001,
+    hot: false
   },
-  mode: "development",
+  mode: 'development',
 };
